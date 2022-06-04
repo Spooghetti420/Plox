@@ -1,4 +1,7 @@
 import sys
+from error import error_occurred
+from scanner import Scanner
+from tokens import Token
 
 def main(args: list[str]) -> None:
     if len(args) > 1:
@@ -19,6 +22,8 @@ def run_file(path: str) -> None:
         sys.exit(1)
 
     run(source)
+    if error_occurred():
+        sys.exit(65)
 
 
 def run_interpreter() -> None:
@@ -26,13 +31,16 @@ def run_interpreter() -> None:
         while True:
             line = input(">> ")
             run(line)
+            error_occurred(False)
     except KeyboardInterrupt:
         return
 
-
 def run(code: str) -> None:
-    pass
+    scanner = Scanner(code)
+    tokens: list[Token] = scanner.scan_tokens()
 
+    for token in tokens:
+        print(token)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
