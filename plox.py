@@ -1,7 +1,10 @@
 import sys
-from error import error_occurred
-from scanner import Scanner
-from tokens import Token
+from src.error import error_occurred
+from src.scanner import Scanner
+from src.expr import ASTPrinter, Expr
+from src.tokens import Token
+from src.parser import Parser 
+
 
 def main(args: list[str]) -> None:
     if len(args) > 1:
@@ -38,9 +41,13 @@ def run_interpreter() -> None:
 def run(code: str) -> None:
     scanner = Scanner(code)
     tokens: list[Token] = scanner.scan_tokens()
+    parser: Parser = Parser(tokens)
+    expression: Expr = parser.parse()
 
-    for token in tokens:
-        print(token)
+    if error_occurred():
+        return
+
+    print(ASTPrinter().print(expression))
 
 if __name__ == "__main__":
     main(sys.argv[1:])

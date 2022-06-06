@@ -1,6 +1,6 @@
 from typing import Any, Optional
-from error import error
-from tokens import Token, TokenType
+from .error import error
+from .tokens import Token, TokenType
 
 
 class Scanner:

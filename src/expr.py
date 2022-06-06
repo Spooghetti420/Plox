@@ -1,8 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Protocol
-from tokens import TokenType
-from tokens import Token
+from .tokens import TokenType, Token
 from abc import ABC, abstractmethod
 
 class Expr(ABC):
