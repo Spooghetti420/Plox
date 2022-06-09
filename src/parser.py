@@ -73,7 +73,8 @@ class Parser:
 
         while self.match(TokenType.SLASH, TokenType.STAR):
             operator: Token = self.previous()
-            expr = Unary(operator, expr)
+            right: Expr = self.unary()
+            expr = Binary(expr, operator, right)
 
         return expr
 

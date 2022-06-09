@@ -1,11 +1,13 @@
 import sys
-from src.error import error_occurred
+from src.error import error_occurred, runtime_error_occurred
+from src.interpreter import Interpreter, RuntimeException
 from src.scanner import Scanner
 from src.expr import ASTPrinter, Expr
 from src.tokens import Token
-from src.parser import Parser 
+from src.parser import Parser
+from traceback import print_tb
 
-
+interpreter = Interpreter()
 def main(args: list[str]) -> None:
     if len(args) > 1:
         print("Usage: plox [script.lox]")
@@ -27,6 +29,8 @@ def run_file(path: str) -> None:
     run(source)
     if error_occurred():
         sys.exit(65)
+    if runtime_error_occurred():
+        sys.exit(70)
 
 
 def run_interpreter() -> None:
@@ -47,7 +51,10 @@ def run(code: str) -> None:
     if error_occurred():
         return
 
-    print(ASTPrinter().print(expression))
+    # ASTPrinter().print(expression)
+    interpreter.interpret(expression)
+
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
